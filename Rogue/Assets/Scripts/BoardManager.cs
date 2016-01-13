@@ -29,6 +29,9 @@ public class BoardManager : MonoBehaviour {
     public GameObject[] foodTiles;
     public GameObject[] enemyTiles;
     public GameObject[] outerWallTiles;
+    public GameObject[] cornerTiles;
+    public GameObject[] exitDoor;
+    public GameObject[] exitSign;
 
     private Transform boardHolder;
     private List<Vector3> gridPositions = new List<Vector3>();
@@ -54,14 +57,40 @@ public class BoardManager : MonoBehaviour {
             {
                 GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
                 if (x == -1 || x == columns || y == -1 || y == rows)
-                    if (x == -1){
-                    toInstantiate = outerWallTiles[0];
-                }else if (x == 8){
-                    toInstantiate = outerWallTiles[1];
-                }else{
-                    toInstantiate = outerWallTiles[2];
+                {
+                    if (x == -1)
+                    {
+                        toInstantiate = outerWallTiles[0];
+                        if (y == -1)
+                            toInstantiate = cornerTiles[0];
+                        if (y == 8)
+                            toInstantiate = cornerTiles[1];
+                    }
+                    else if (x == 6 && y == 8)
+                    {
+                        toInstantiate = exitSign[0];
+                    }
+                    else if (x == 7 && y == 8)
+                    {
+                            toInstantiate = exitDoor[0];
+                    }
+                    else if (x == 8)
+                    {
+                        toInstantiate = outerWallTiles[1];
+                        if (y == -1)
+                            toInstantiate = cornerTiles[2];
+                        if (y == 8)
+                            toInstantiate = cornerTiles[3];
+                    }
+                    else if(y == -1)
+                    {
+                        toInstantiate = outerWallTiles[2];
+                    }
+                    else if(y == 8)
+                    {
+                        toInstantiate = outerWallTiles[3];
+                    }
                 }
-
                 GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
 
                 instance.transform.SetParent(boardHolder);
