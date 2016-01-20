@@ -28,8 +28,16 @@ public class BoardManager : MonoBehaviour {
     public GameObject[] wallTiles;
     public GameObject[] foodTiles;
     public GameObject[] enemyTiles;
-    public GameObject[] outerWallTiles;
-    public GameObject[] cornerTiles;
+    //public GameObject[] outerWallTiles;
+    public GameObject upperOuterWallTile;
+    public GameObject downOuterWallTile;
+    public GameObject leftOuterWallTile;
+    public GameObject rightOuterWallTile;
+    //public GameObject[] cornerTiles;
+    public GameObject upperLeftCornerTile;
+    public GameObject upperRightCornerTile;
+    public GameObject downLeftCornerTile;
+    public GameObject downRightCornerTile;
     public GameObject[] exitDoor;
     public GameObject[] exitSign;
 
@@ -60,35 +68,35 @@ public class BoardManager : MonoBehaviour {
                 {
                     if (x == -1)
                     {
-                        toInstantiate = outerWallTiles[0];
+                        toInstantiate = leftOuterWallTile;
                         if (y == -1)
-                            toInstantiate = cornerTiles[0];
-                        if (y == 8)
-                            toInstantiate = cornerTiles[1];
+                            toInstantiate = downLeftCornerTile;
+                        if (y == rows)
+                            toInstantiate = upperLeftCornerTile;
                     }
-                    else if (x == 6 && y == 8)
+                    else if (x == columns-2 && y == rows)
                     {
                         toInstantiate = exitSign[0];
                     }
-                    else if (x == 7 && y == 8)
+                    else if (x == columns-1 && y == rows)
                     {
                             toInstantiate = exitDoor[0];
                     }
-                    else if (x == 8)
+                    else if (x == columns)
                     {
-                        toInstantiate = outerWallTiles[1];
+                        toInstantiate = rightOuterWallTile;
                         if (y == -1)
-                            toInstantiate = cornerTiles[2];
-                        if (y == 8)
-                            toInstantiate = cornerTiles[3];
+                            toInstantiate = downRightCornerTile;
+                        if (y == rows)
+                            toInstantiate = upperRightCornerTile;
                     }
                     else if(y == -1)
                     {
-                        toInstantiate = outerWallTiles[2];
+                        toInstantiate = downOuterWallTile;
                     }
-                    else if(y == 8)
+                    else if(y == rows)
                     {
-                        toInstantiate = outerWallTiles[3];
+                        toInstantiate = upperOuterWallTile;
                     }
                 }
                 GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
