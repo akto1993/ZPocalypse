@@ -7,6 +7,7 @@ namespace Completed
     public class Enemy : MovingObject
     {
         public int playerDamage;                            //The amount of food points to subtract from the player when attacking.
+        public int hp;
 
 
         private Animator animator;                          //Variable of type Animator to store a reference to the enemy's Animator component.
@@ -78,17 +79,29 @@ namespace Completed
 
         //OnCantMove is called if Enemy attempts to move into a space occupied by a Player, it overrides the OnCantMove function of MovingObject 
         //and takes a generic parameter T which we use to pass in the component we expect to encounter, in this case Player
-        protected override void OnCantMove<T>(T component)
+        protected override void OnCantMove(RaycastHit2D hit)
         {
-            //Declare hitPlayer and set it to equal the encountered component.
-            Player hitPlayer = component as Player;
+            if (hit.transform.GetComponent<Player>() != null)
+            {
+                //Declare hitPlayer and set it to equal the encountered component.
+                Player hitPlayer = (hit.transform.GetComponent<Player>());
 
-            //Call the LoseFood function of hitPlayer passing it playerDamage, the amount of foodpoints to be subtracted.
-            hitPlayer.LoseFood(playerDamage);
+                //Call the LoseFood function of hitPlayer passing it playerDamage, the amount of foodpoints to be subtracted.
+                hitPlayer.LoseFood(playerDamage);
 
-            //Set the attack trigger of animator to trigger Enemy attack animation.
-            animator.SetTrigger("enemyAttack");
+                //Set the attack trigger of animator to trigger Enemy attack animation.
+                animator.SetTrigger("enemyAttack");
+            }
 
+        }
+
+        public void DamageEnemy(int loss)
+        {
+            
+            hp -= loss;
+            
+            if (hp <= 0)
+                gameObject.SetActive(false);
         }
     }
 }
